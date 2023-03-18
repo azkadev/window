@@ -1,10 +1,136 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import "package:window/window.dart" as window_package;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   window_package.Window.init(initialSize: const Size(1280, 720), minSize: const Size(1280, 720));
-  runApp(const MyApp());
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: App(),
+  ));
+}
+
+class App extends StatefulWidget {
+  const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  final GlobalKey statusNativeBarKey = GlobalKey();
+  final GlobalKey appNativeBarKey = GlobalKey();
+
+  late Size statusNativeBarSize = Size(MediaQuery.of(context).size.width, 30);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print(_);
+      getSizeAndPosition();
+    });
+  }
+
+  getSizeAndPosition() {
+    BuildContext? contextC = statusNativeBarKey.currentContext;
+    if (contextC != null && contextC.size != null) {
+      statusNativeBarSize = contextC.size ?? Size(MediaQuery.of(context).size.width, 30);
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(statusNativeBarSize);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(window_package.appWindow.isMaximized ? 0 : 10),
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            Positioned(
+              // key: const Key('ScreenRoot'),
+              // left: 0,
+              top: statusNativeBarSize.height,
+              // width: MediaQuery.of(context).size.width,
+              // height: MediaQuery.of(context).size.height - 30,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width,
+                  maxHeight: MediaQuery.of(context).size.height - statusNativeBarSize.height,
+                ),
+                child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return MediaQuery(
+                      data: MediaQuery.of(context),
+                      child: MyApp(
+                        key: appNativeBarKey,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Positioned(
+              key: statusNativeBarKey,
+              child: Container(
+                height: 30,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 24, 20, 28),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: window_package.MoveWindow(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Spacer(),
+                      MaterialButton(
+                        minWidth: 0,
+                        onPressed: () {
+                          window_package.appWindow.minimize();
+                        },
+                        child: Icon(
+                          Icons.minimize,
+                          color: Colors.white,
+                        ),
+                      ),
+                      MaterialButton(
+                        minWidth: 0,
+                        onPressed: () {
+                          window_package.appWindow.maximizeOrRestore();
+                        },
+                        child: const Icon(
+                          Icons.maximize,
+                          color: Colors.white,
+                        ),
+                      ),
+                      MaterialButton(
+                        minWidth: 0,
+                        onPressed: () {
+                          window_package.appWindow.close();
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -72,7 +198,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
+    return MaterialApp(
+        home: Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -113,6 +240,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+    ));
   }
 }

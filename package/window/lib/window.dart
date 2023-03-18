@@ -5,6 +5,7 @@ import "package:universal_io/io.dart";
 import 'package:flutter/material.dart';
 
 import 'bitsdojo_window/bitsdojo_window.dart';
+export "bitsdojo_window/bitsdojo_window.dart";
 
 /// A Calculator.
 class Calculator {
@@ -21,7 +22,6 @@ class Window {
     } else if (Platform.isIOS) {
     } else {
       doWhenWindowReady(() {
-        
         appWindow.minSize = minSize;
         appWindow.size = initialSize;
         appWindow.alignment = Alignment.center;
