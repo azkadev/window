@@ -69,54 +69,12 @@ jobs:
           flutter config --enable-windows-desktop
           flutter config --enable-android
           flutter config --enable-ios
-        
-      # Compile Template
-      - name: Compile Application app_template
+
+      - name: Compile Package window
         continue-on-error: true
         shell: bash
         run: |
-          cd lib/template/app_template
-          flutter pub get
-
-          flutter pub run packagex create .
-          flutter pub run packagex build all
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            mv build/packagex/* ../../../build
-          fi
-          if [ "$RUNNER_OS" == "Windows" ]; then 
-            mv build/packagex/* ../../../build
-          fi
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            mv build/packagex/* ../../../build
-          fi
-          flutter clean
-
-
-      - name: Compile Package window_dart
-        continue-on-error: true
-        shell: bash
-        run: |
-          cd package/window_dart
-          flutter pub get
-
-          flutter pub run packagex create .
-          flutter pub run packagex build all
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            mv build/packagex/* ../../build
-          fi
-          if [ "$RUNNER_OS" == "Windows" ]; then 
-            mv build/packagex/* ../../build
-          fi
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            mv build/packagex/* ../../build
-          fi
-          flutter clean
-
-      - name: Compile Package window_flutter
-        continue-on-error: true
-        shell: bash
-        run: |
-          cd package/window_flutter
+          cd package/window
           flutter pub get
 
           flutter pub run packagex create .
@@ -142,7 +100,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         continue-on-error: true
         with:
-          repo_token: ${{ secrets.TOKEN }}
+          repo_token: ${{ github.token }}
           automatic_release_tag: "beta-${{ matrix.output-name }}"
           prerelease: false
           title: "Release ${{ matrix.output-name }}"
