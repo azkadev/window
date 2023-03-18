@@ -74,6 +74,7 @@ void main(List<String> arguments) async {
     // linux
 
     Directory directory_linux = Directory(path_package.join(directory_current.path, "linux"));
+    Directory directory_windows = Directory(path_package.join(directory_current.path, "windows"));
 
     File file_app_linux = File(path_package.join(directory_linux.path, "my_application.cc"));
     if (file_app_linux.existsSync()) {
@@ -94,6 +95,24 @@ bdw->setCustomFrame(true);
       if (is_update) {
         print("update linux");
         await file_app_linux.writeAsString(my_application_data);
+      }
+    }
+
+    File file_app_windows = File(path_package.join(directory_windows.path, "runner", "main.cpp"));
+
+    if (file_app_windows.existsSync()) {
+      String my_application_data = await file_app_windows.readAsString();
+      bool is_update = false;
+
+      if (!RegExp(RegExp.escape("#include <bitsdojo_window_windows/bitsdojo_window_plugin.h>"), caseSensitive: false).hashData(my_application_data)) {
+        is_update = true;
+
+        my_application_data = ("#include <bitsdojo_window_windows/bitsdojo_window_plugin.h>\nauto bdw = bitsdojo_window_configure(BDW_CUSTOM_FRAME | BDW_HIDE_ON_STARTUP);\n${my_application_data}");
+      }
+
+      if (is_update) {
+        print("update windows");
+        await file_app_windows.writeAsString(my_application_data);
       }
     }
     print("Succes");
