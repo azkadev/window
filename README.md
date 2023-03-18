@@ -9,17 +9,17 @@
 
 
 ```bash
-dart pub add window
+dart pub add window_app
 ```
 
 init
 ```bash
-dart run window init
+dart run window_app init
 ```
 
 import package
 ```dart
-import "package:window/window.dart" as window_package;
+import "package:window_app/window_app.dart" as window_package;
 ```
 
 
@@ -27,7 +27,7 @@ import "package:window/window.dart" as window_package;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  window_package.Window.init(initialSize: const Size(1280, 720), minSize: const Size(1280, 720));
+  window_package.WindowApp.init(initialSize: const Size(1280, 720), minSize: const Size(1280, 720));
 
   // ---
 

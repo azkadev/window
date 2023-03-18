@@ -1,4 +1,4 @@
-library window;
+library window_app;
 
 import 'package:flutter/foundation.dart';
 import "package:universal_io/io.dart";
@@ -7,14 +7,9 @@ import 'package:flutter/material.dart';
 
 import 'bitsdojo_window/bitsdojo_window.dart';
 export "bitsdojo_window/bitsdojo_window.dart";
+ 
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
-
-class Window {
+class WindowApp {
   static Future<void> init({
     required Size initialSize,
     required Size minSize,

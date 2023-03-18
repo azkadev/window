@@ -5,8 +5,8 @@ import "package:universal_io/io.dart";
 
 import "package:path/path.dart" as path_package;
 import "package:yaml/yaml.dart" as yaml_package;
-import "package:window/scheme/scheme.dart" as window_scheme;
-import "package:window/shell/shell.dart" as window_shell;
+import "package:window_app/scheme/scheme.dart" as window_scheme;
+import "package:window_app/shell/shell.dart" as window_shell;
 
 void main(List<String> arguments) async {
   Args args = Args(arguments);
@@ -49,16 +49,16 @@ void main(List<String> arguments) async {
     window_scheme.Pubspec pubspec = window_scheme.Pubspec(yaml_code.clone());
 
     if (!pubspec.dependencies.rawData.containsKey("bitsdojo_window")) {
-      await window_shell.shell(
-        executable: "dart",
-        arguments: ["pub", "add", "bitsdojo_window"],
-        onStdout: (data, executable, arguments, workingDirectory, environment, includeParentEnvironment, runInShell, mode) {
-          stdout.add(data);
-        },
-        onStderr: (data, executable, arguments, workingDirectory, environment, includeParentEnvironment, runInShell, mode) {
-          stderr.add(data);
-        },
-      );
+      // await window_shell.shell(
+      //   executable: "dart",
+      //   arguments: ["pub", "add", "bitsdojo_window"],
+      //   onStdout: (data, executable, arguments, workingDirectory, environment, includeParentEnvironment, runInShell, mode) {
+      //     stdout.add(data);
+      //   },
+      //   onStderr: (data, executable, arguments, workingDirectory, environment, includeParentEnvironment, runInShell, mode) {
+      //     stderr.add(data);
+      //   },
+      // );
     }
 
     await window_shell.shell(

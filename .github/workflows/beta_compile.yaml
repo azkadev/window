@@ -70,11 +70,11 @@ jobs:
           flutter config --enable-android
           flutter config --enable-ios
 
-      - name: Compile Package window
+      - name: Compile Package window_app
         continue-on-error: true
         shell: bash
         run: |
-          cd package/window/example
+          cd package/window_app/example
           flutter pub get
 
           flutter pub run packagex create .

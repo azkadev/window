@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import "package:window/window.dart" as window_package;
+import "package:window_app/window_app.dart" as window_package;
 import "package:universal_io/io.dart";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  window_package.Window.init(initialSize: const Size(1280, 720), minSize: const Size(1280, 720));
+  window_package.WindowApp.init(initialSize: const Size(1280, 720), minSize: const Size(1280, 720));
   if (Platform.isAndroid || Platform.isIOS || kIsWeb) {
     return runApp(MyApp());
   } else {
