@@ -38,6 +38,7 @@ dependencies:
   window:
     path: ../
   bitsdojo_window: ^0.1.5
+  universal_io: ^2.2.0
 
 dev_dependencies:
   flutter_test:

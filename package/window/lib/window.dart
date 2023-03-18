@@ -1,5 +1,6 @@
 library window;
 
+import 'package:flutter/foundation.dart';
 import "package:universal_io/io.dart";
 
 import 'package:flutter/material.dart';
@@ -21,12 +22,14 @@ class Window {
     if (Platform.isAndroid) {
     } else if (Platform.isIOS) {
     } else {
-      doWhenWindowReady(() {
-        appWindow.minSize = minSize;
-        appWindow.size = initialSize;
-        appWindow.alignment = Alignment.center;
-        appWindow.show();
-      });
+      if (!kIsWeb) {
+        doWhenWindowReady(() {
+          appWindow.minSize = minSize;
+          appWindow.size = initialSize;
+          appWindow.alignment = Alignment.center;
+          appWindow.show();
+        });
+      }
     }
     return;
   }
